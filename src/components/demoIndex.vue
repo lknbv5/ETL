@@ -5,7 +5,6 @@
     <Demo class="demo"
         :schemaProps="schema"
         :formDataProps="formData"
-        :validate="onValidate"
         @changeData="changeData"
         @changeSchema="changeSchema"
     />
@@ -13,12 +12,12 @@
 </template>
 
 <script>
-import {reactive, toRefs} from 'vue';
+// import {reactive, toRefs} from 'vue';
 import Demo from './demo';
 export default {
-  name: 'App',
-  setup() {
-    const state = reactive({
+  name: 'DemoIndex',
+  data(){
+    return{
       schema: {
       "type": "object", 
       "title":"示例",
@@ -31,50 +30,35 @@ export default {
         "title": "文本实例",
         "type": "string"
       },
-      "list": {
-        "type": "array",
-        "title": "集合示例",
-        "items":{
+        "list": {
+          "type": "array",
+          "title": "集合示例",
+          "items":{
           "title":"单项",
           "type":"string"
+            }
+          }
         }
-    }
-  }
-},
-      formData: {
       },
-    });
-
-    const change = (v) => {
-      state.formData = v;
-      // console.log(v);
-    }
-    const onValidate = (v) => {
-      console.log(v);
-    }
-
-    return {
-      ...toRefs(state),
-      change,
-      onValidate,
+      formData: {}
     }
   },
   components: {
     Demo,
   },
   methods:{
-    // changeData(currentschema){
-    //   this.state.schema=currentschema;
-    // },
-    // changeSchema(currentschema){
-    //   this.state.formData=currentschema;
-    // },
+    changeData (v){
+      this.formData = v;
+    },
 
+     changeSchema (v){
+      this.schema = v;
+    },
     showData(){
-        alert(window.JSON.stringify(this.state.formDate));
+        alert(window.JSON.stringify(this.formData));
     },
     showSchema(){
-      alert(window.JSON.stringify(this.state.schema));
+       alert(window.JSON.stringify(this.schema));
     }
 
   }

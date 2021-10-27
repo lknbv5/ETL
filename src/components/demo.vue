@@ -6,7 +6,6 @@
           :schema="schema"
           :formData="formData"
           @on-change="change"
-          @on-validate="validate"
       />
       <div v-else>
         {{error}}
@@ -39,12 +38,12 @@ import formRender from '../../packages/index.jsx';
 const schema2str = obj => JSON.stringify(obj, null, 2) || '';
 
 export default {
-  name: 'App',
+  name: 'demo',
   props: {
     schemaProps: Object,
     formDataProps: Object,
   },
-  setup({schemaProps, formDataProps}) { // eslint-disable-line
+  setup({schemaProps, formDataProps},context) { // eslint-disable-line
     const state = reactive({
       schema: schemaProps,
       formData: formDataProps,
@@ -53,12 +52,8 @@ export default {
     });
     const change = (v) => {
       state.formData = v;
-      this.$emit("changeData",state.formData);
+      context.emit("changeData",state.formData);
     }
-    const validate = (v) => {
-      console.log(v);
-    }
-
     const tryParse = (schemaStr) => {
       let schema = {};
       try {
@@ -79,11 +74,10 @@ export default {
       try {
         state.schemaStr = v;
         const schema = tryParse(v);
-        console.log(schema);
         if (schema) {
           state.schema = schema;
         }
-        this.$emit("changeSchema",state.schema);
+        context.emit("changeSchema",state.schema);
       } catch (e) {
         console.log(e);
       }
@@ -92,7 +86,6 @@ export default {
     return {
       ...toRefs(state),
       change,
-      validate,
       changeSchema
     }
   },
