@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="DemoS">
     <a-button type="primary" @click="showData">获取Data</a-button>
     <a-button type="primary" style="margin-left:10px" @click="showSchema">获取Schema结构</a-button>
     <Demo class="demo"
@@ -65,6 +65,9 @@ export default {
 }
 </script>
 <style>
+  #DemoS{
+    height: max-content;
+  }
   .menu {
     margin-bottom: 20px;
   }

@@ -16,7 +16,9 @@ import {
   Switch,
   Popover,
   Upload,
-  Collapse
+  Collapse,
+  Menu,
+  Layout,
 } from 'ant-design-vue';
 import {
   FileImageOutlined,
@@ -45,6 +47,8 @@ app.use(Switch);
 app.use(Popover);
 app.use(Upload);
 app.use(Collapse);
+app.use(Menu);
+app.use(Layout);
 
 app.component('FileImageOutlined', FileImageOutlined)
 app.component('UploadOutlined', UploadOutlined)

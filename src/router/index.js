@@ -1,13 +1,13 @@
 // import Simple from '../components/simple.vue';
-import DemoIndex from '../components/demoIndex';
-
+//import DemoIndex from '../components/demoIndex';
+import Menu from '../components/menu.vue';
 import {createRouter,createWebHashHistory} from 'vue-router'
 
 const routes = [
   {
     path: '/',
     name: 'demos',
-    component: DemoIndex,
+    component: Menu,
     children: [
       // {
       //   path: '',
