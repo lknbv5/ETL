@@ -18,6 +18,7 @@
         @update:modelValue="changeSchema"
         :highlight="highlighter"
         line-numbers
+      
     >
     </prism-editor>
   </div>

@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "ant-design-vue": "^2.2.8",
+    "blueimp-md5": "^2.19.0",
     "core-js": "^3.6.5",
+    "identicon.js": "^2.3.3",
     "less": "^4.0.0",
     "less-loader": "^7.2.1",
     "moment": "^2.29.1",

@@ -19,6 +19,9 @@ import {
   Collapse,
   Menu,
   Layout,
+  Breadcrumb,
+  List,
+  Avatar,
 } from 'ant-design-vue';
 import {
   FileImageOutlined,
@@ -49,6 +52,9 @@ app.use(Upload);
 app.use(Collapse);
 app.use(Menu);
 app.use(Layout);
+app.use(Breadcrumb);
+app.use(List);
+app.use(Avatar);
 
 app.component('FileImageOutlined', FileImageOutlined)
 app.component('UploadOutlined', UploadOutlined)
