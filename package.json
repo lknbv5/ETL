@@ -3,21 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve:dev": "set NODE_ENV = development&&vue-cli-service serve",
+    "serve:prod": "set NODE_ENV = production&&vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "ant-design-vue": "^2.2.8",
     "blueimp-md5": "^2.19.0",
+    "clipboard": "^2.0.8",
     "core-js": "^3.6.5",
     "identicon.js": "^2.3.3",
     "less": "^4.0.0",
     "less-loader": "^7.2.1",
     "moment": "^2.29.1",
+    "uuid": "^8.3.2",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "vue3-form-render": "^1.0.3"
+    "vue3-form-render": "^1.0.3",
+    "vue3-json-viewer": "^1.0.4"
   },
   "devDependencies": {
     "@ant-design-vue/babel-plugin-jsx": "^1.0.0-rc.1",
@@ -28,6 +32,7 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "antd-dayjs-webpack-plugin": "^1.0.6",
+    "axios": "^0.24.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
@@ -47,7 +52,12 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "strict": "off",
+      "no-debugger": 0,
+      "no-console": "off",
+      "no-tabs": "off"
+    }
   },
   "browserslist": [
     "> 1%",
