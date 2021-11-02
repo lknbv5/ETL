@@ -1,5 +1,5 @@
 {
-  "name": "myfirstvue3",
+  "name": "GTCloudETL",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,6 +16,7 @@
     "identicon.js": "^2.3.3",
     "less": "^4.0.0",
     "less-loader": "^7.2.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "uuid": "^8.3.2",
     "vue": "^3.0.0",

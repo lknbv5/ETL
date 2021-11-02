@@ -6,6 +6,7 @@ import {createRouter,createWebHashHistory} from 'vue-router'
 import ProjectSetting from '../components/ProjectSetting.vue';
 import AttrSetting from '../components/AttrSetting.vue';
 import DemoIndex from '../components/demoIndex.vue';
+import Config from '../components/AttrSetting_config.vue'
 const routes = [
   {
     path: '/',
@@ -25,8 +26,16 @@ const routes = [
       {
         path:'/AttrSetting',
         name:'AttrSetting',
-        meta:{title:'属性源配置'},
-        component:AttrSetting
+        meta:{title:'属性配置'},
+        component:AttrSetting,
+        children:[
+          {
+            path:"Config",
+            name:"Config",
+            meta:{title:'数据源配置'},
+            component:Config
+          },
+        ]
       },
       {
         path:'/DemoIndex',

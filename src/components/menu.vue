@@ -3,7 +3,7 @@
     style="min-height: 100vh"
     id="components-layout-demo-custom-trigger"
   >
-    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
+    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible > 
       <div class="logo">
         <img src="../assets/logo.png" width="35" style="margin-left: 10px" />
         <span
@@ -15,20 +15,18 @@
       <a-menu
         theme="dark"
         mode="inline"
-        :selectedKeys="[$route.path]"
-        :default-selected-keys="[this.$route.path.split('/')[2]]"
-        :default-open-keys="[this.$route.path.split('/')[1]]"
+        :selectedKeys="[this.$route.path.split('/')[1]]"
       >
-        <a-menu-item key="/ProjectSetting">
+        <a-menu-item key="ProjectSetting">
           <DatabaseOutlined style="margin-right:8px"/>
           <!-- <router-link to="/ProjectSetting">项目配置</router-link> -->
           <span><router-link to="/ProjectSetting"></router-link>项目配置</span>
         </a-menu-item>
-        <a-menu-item key="/AttrSetting">
+        <a-menu-item key="AttrSetting">
           <ControlOutlined style="margin-right:8px"/>
-          <span><router-link to="/AttrSetting"></router-link>属性源配置</span>
+          <span><router-link to="/AttrSetting"></router-link>属性配置</span>
         </a-menu-item>
-        <a-menu-item key="/DemoIndex">
+        <a-menu-item key="DemoIndex">
           <NodeIndexOutlined style="margin-right:8px"/>
           <span><router-link to="/DemoIndex"></router-link>自定义数据源配置</span>
         </a-menu-item>

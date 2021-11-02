@@ -49,6 +49,7 @@
       v-model:visible="Editmodal_visible"
       title="编辑项目"
       @ok="saveEditProject"
+      @cancel="cancelEditProject"
       centered
       okText="保存"
       cancelText="取消"
@@ -123,9 +124,8 @@ import {
   updateProject,
   getIsHasApiAdd,
   saveProject,
+  deleteProject,
 } from "../../src/util/Apiservice.js";
-import { v4 as uuidv4 } from "uuid";
-import { message } from "ant-design-vue";
 
 export default {
   name: "ProjectSetting",
@@ -151,14 +151,14 @@ export default {
       this.Createmodal_visible = true;
       this.project = {
         id: 0,
-        projectNo: uuidv4(),
+        projectNo: this.$uuidv4(),
         projectApiAdd: "",
         projectName: "",
       };
     },
     //点击编辑项目按钮
     EditProject(item) {
-      this.project = item;
+      this.project =this.$_.cloneDeep(item);
       this.Editmodal_visible = true;
     },
     //保存新项目
@@ -168,26 +168,26 @@ export default {
       var rr=reg.test(this.project.projectApiAdd);
       if (rr) {
         getIsHasApiAdd({add:this.project.projectApiAdd}).then(res=>{
-            if (res) {
-              message.warning("Api地址已存在，请重新输入");
+            if (res==true) {
+              this.$antdmessage.warning("Api地址已存在，请重新输入");
             }else{
               saveProject(this.project).then(res=>{
-                if (res) {
-                  message.success("保存成功!");
+                if (res==true) {
+                  console.log('保存结果：'+res)
+                  this.$antdmessage.success("保存成功!");
                   this.Createmodal_visible=false;
                   this.onLoad();
                 } else {
-                  message.error("保存失败!")
+                  this.$antdmessage.error("保存失败!")
                 }
               })
             }
           });
           
       } else {
-        message.warning("Api地址只允许输入英文、数字及下划线");
+        this.$antdmessage.warning("Api地址只允许输入英文、数字及下划线");
       }
-
-      // message.success("创建成功" + JSON.stringify(this.project));
+      // this.$antdmessage.success("创建成功" + JSON.stringify(this.project));
     },
     //保存编辑的项目
     saveEditProject() {
@@ -195,27 +195,39 @@ export default {
       var rr=reg.test(this.project.projectApiAdd);
       if (rr) {
         getIsHasOtherApiAdd({add:this.project.projectApiAdd,projectId:this.project.id}).then(res=>{
-            if (res) {
-              message.warning("Api地址已存在，请重新输入");
+            if (res==true) {
+              this.$antdmessage.warning("Api地址已存在，请重新输入");
             }else{
               updateProject(this.project).then(res=>{
-                if (res) {
-                  message.success("更新成功!");
+                if (res==true) {
+                  console.log('更新结果'+res)
+                  this.$antdmessage.success("更新成功!");
                   this.Editmodal_visible = false;
                   this.onLoad();
                 } else {
-                  message.error("更新失败!")
+                  this.$antdmessage.error("更新失败!")
                 }
               })
             }
           });
       } else {
-        message.warning("Api地址只允许输入英文、数字及下划线");
+        this.$antdmessage.warning("Api地址只允许输入英文、数字及下划线");
       }
     },
     //确定删除
     sureDel(item){
-        message.success(JSON.stringify(item));
+        //执行删除操作
+        deleteProject({projectId:item.id}).then(res=>{
+          if (res==true) {
+            //删除成功
+            this.$antdmessage.success("删除成功!");
+            this.onLoad();
+          } else {
+            //删除失败
+            this.$antdmessage.error("删除失败!");
+            this.onLoad();
+          }
+        });
     },
     //加载时刷新数据
     onLoad() {

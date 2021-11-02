@@ -27,6 +27,7 @@ import {
   Divider,
   Form,
   Popconfirm,
+  Table,
 } from 'ant-design-vue';
 import {
   FileImageOutlined,
@@ -36,14 +37,23 @@ import {
   BarsOutlined,
   DeleteOutlined,
   DragOutlined,
+  SearchOutlined,
+  PlusCircleOutlined
 } from '@ant-design/icons-vue';
 import JsonViewer from "vue3-json-viewer"
 
 import 'ant-design-vue/dist/antd.css';
 
+import _ from 'lodash';
 
+import { v4 as uuidv4 } from "uuid";
 
+import { message } from "ant-design-vue";
 const app = createApp(App);
+
+app.config.globalProperties.$_ = _;//全局使用lodash
+app.config.globalProperties.$uuidv4=uuidv4;//全局试用uuid
+app.config.globalProperties.$antdmessage=message;//全局试用antdmessage
 
 app.use(JsonViewer)
 
@@ -69,8 +79,9 @@ app.use(Avatar);
 app.use(Drawer);
 app.use(Modal);
 app.use(Divider);
-app.use(Form );
+app.use(Form);
 app.use(Popconfirm);
+app.use(Table);
 
 app.component('FileImageOutlined', FileImageOutlined)
 app.component('UploadOutlined', UploadOutlined)
@@ -79,6 +90,8 @@ app.component('BarsOutlined', BarsOutlined)
 app.component('DeleteOutlined', DeleteOutlined)
 app.component('DragOutlined', DragOutlined)
 app.component('QuestionCircleOutlined', QuestionCircleOutlined)
+app.component("SearchOutlined",SearchOutlined )
+app.component("PlusCircleOutlined",PlusCircleOutlined)
 
 
 
