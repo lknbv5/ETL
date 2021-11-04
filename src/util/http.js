@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'development') {
 } else if (process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = ''
 }
-axios.defaults.timeout = 10000
+axios.defaults.timeout = 50000
 // axios.defaults.withCredentials = true;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8;multipart/form-data'
 

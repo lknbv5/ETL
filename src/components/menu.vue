@@ -3,7 +3,7 @@
     style="min-height: 100vh"
     id="components-layout-demo-custom-trigger"
   >
-    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible > 
+    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
       <div class="logo">
         <img src="../assets/logo.png" width="35" style="margin-left: 10px" />
         <span
@@ -18,17 +18,19 @@
         :selectedKeys="[this.$route.path.split('/')[1]]"
       >
         <a-menu-item key="ProjectSetting">
-          <DatabaseOutlined style="margin-right:8px"/>
+          <DatabaseOutlined style="margin-right: 8px" />
           <!-- <router-link to="/ProjectSetting">项目配置</router-link> -->
           <span><router-link to="/ProjectSetting"></router-link>项目配置</span>
         </a-menu-item>
         <a-menu-item key="AttrSetting">
-          <ControlOutlined style="margin-right:8px"/>
+          <ControlOutlined style="margin-right: 8px" />
           <span><router-link to="/AttrSetting"></router-link>属性配置</span>
         </a-menu-item>
         <a-menu-item key="DemoIndex">
-          <NodeIndexOutlined style="margin-right:8px"/>
-          <span><router-link to="/DemoIndex"></router-link>自定义数据源配置</span>
+          <NodeIndexOutlined style="margin-right: 8px" />
+          <span
+            ><router-link to="/DemoIndex"></router-link>自定义数据源配置</span
+          >
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
@@ -44,19 +46,23 @@
           class="trigger"
           @click="() => (collapsed = !collapsed)"
         />
-        <div style="margin-left:20px;margin-top:0px;">
-          <span style="color:black;" >你的位置:</span>
-          <a-breadcrumb separator="/" style="display:inline-block">
-          <!-- <span style="color:black">你的位置:</span> -->
-          <a-breadcrumb-item
-            v-for="(item, index) of $route.matched"
-            :key="index"
-          >
-            <router-link :to="item.path" class="routlink" style="font-size: 14px ;">
-              {{item.meta.title}}
-            </router-link>
-          </a-breadcrumb-item>
-        </a-breadcrumb>
+        <div style="margin-left: 20px; margin-top: 0px">
+          <span style="color: black">你的位置:</span>
+          <a-breadcrumb separator="/" style="display: inline-block">
+            <!-- <span style="color:black">你的位置:</span> -->
+            <a-breadcrumb-item
+              v-for="(item, index) of $route.matched"
+              :key="index"
+            >
+              <router-link
+                :to="item.path"
+                class="routlink"
+                style="font-size: 14px"
+              >
+                {{ item.meta.title }}
+              </router-link>
+            </a-breadcrumb-item>
+          </a-breadcrumb>
         </div>
       </a-layout-header>
       <a-layout-content
@@ -66,7 +72,14 @@
           background: '#fff',
         }"
       >
-        <router-view />
+        <router-view v-slot="{ Component }">
+          <keep-alive :include="['AttrSetting', 'Config']">
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
+        <!-- <keep-alive :include="['AttrSetting', 'Config']">
+             <router-view/>
+        </keep-alive> -->
       </a-layout-content>
       <a-layout-footer style="text-align: center">
         <h5 style="height: 5px; color: gray">
@@ -103,21 +116,12 @@ export default defineComponent({
       collapsed: ref(false),
     };
   },
-  created() {
-   
-  },
+  created() {},
   data() {
-    return {
-      
-    };
+    return {};
   },
-  methods: {
-    
-    
-  },
-  watch: {
-    
-  },
+  methods: {},
+  watch: {},
 });
 </script>
 <style scope>

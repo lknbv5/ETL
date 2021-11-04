@@ -49,7 +49,6 @@
       v-model:visible="Editmodal_visible"
       title="编辑项目"
       @ok="saveEditProject"
-      @cancel="cancelEditProject"
       centered
       okText="保存"
       cancelText="取消"

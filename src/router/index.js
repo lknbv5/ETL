@@ -18,13 +18,13 @@ const routes = [
 				redirect: { name: 'ProjectSetting' }
       },
       {
-        path: '/ProjectSetting',
+        path: 'ProjectSetting',
         name: 'ProjectSetting',
         meta:{title:'项目配置'},
         component: ProjectSetting
       },
       {
-        path:'/AttrSetting',
+        path:'AttrSetting',
         name:'AttrSetting',
         meta:{title:'属性配置'},
         component:AttrSetting,
@@ -32,13 +32,25 @@ const routes = [
           {
             path:"Config",
             name:"Config",
-            meta:{title:'数据源配置'},
+            meta:{title:'编辑数据源配置'},
+            // props({query}){
+            //   return {attr:query.attr}
+            // },
+            component:Config
+          },
+          {
+            path:"NewConfig",
+            name:"NewConfig",
+            meta:{title:'新建数据源配置'},
+            // props({query}){
+            //   return {attr:query.attr}
+            // },
             component:Config
           },
         ]
       },
       {
-        path:'/DemoIndex',
+        path:'DemoIndex',
         name:'DemoIndex',
         meta:{title:'自定义配置'},
         component:DemoIndex

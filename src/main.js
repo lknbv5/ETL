@@ -28,6 +28,7 @@ import {
   Form,
   Popconfirm,
   Table,
+  ConfigProvider
 } from 'ant-design-vue';
 import {
   FileImageOutlined,
@@ -49,11 +50,16 @@ import _ from 'lodash';
 import { v4 as uuidv4 } from "uuid";
 
 import { message } from "ant-design-vue";
-const app = createApp(App);
+import store from './store'
+import mitt from "mitt"
 
+const app = createApp(App).use(store);
+
+app.config.globalProperties.$mybus = new mitt()//全局使用事件总线
 app.config.globalProperties.$_ = _;//全局使用lodash
 app.config.globalProperties.$uuidv4=uuidv4;//全局试用uuid
 app.config.globalProperties.$antdmessage=message;//全局试用antdmessage
+
 
 app.use(JsonViewer)
 
@@ -82,6 +88,7 @@ app.use(Divider);
 app.use(Form);
 app.use(Popconfirm);
 app.use(Table);
+app.use(ConfigProvider);
 
 app.component('FileImageOutlined', FileImageOutlined)
 app.component('UploadOutlined', UploadOutlined)
