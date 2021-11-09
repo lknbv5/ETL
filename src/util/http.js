@@ -4,7 +4,7 @@ import axios from 'axios'
 if (process.env.NODE_ENV === 'development') {
   axios.defaults.baseURL = 'http://localhost:26067/'
 } else if (process.env.NODE_ENV === 'production') {
-  axios.defaults.baseURL = ''
+  axios.defaults.baseURL = 'http://localhost:26067/'
 }
 axios.defaults.timeout = 50000
 // axios.defaults.withCredentials = true;
@@ -94,7 +94,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function get (url, params) {
+export async function get (url, params) {
   return new Promise((resolve, reject) => {
     axios.get(url, {
       params: params

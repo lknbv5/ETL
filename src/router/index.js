@@ -32,7 +32,7 @@ const routes = [
           {
             path:"Config",
             name:"Config",
-            meta:{title:'编辑数据源配置'},
+            meta:{title:'编辑数据源'},
             // props({query}){
             //   return {attr:query.attr}
             // },
@@ -41,7 +41,7 @@ const routes = [
           {
             path:"NewConfig",
             name:"NewConfig",
-            meta:{title:'新建数据源配置'},
+            meta:{title:'新建数据源'},
             // props({query}){
             //   return {attr:query.attr}
             // },

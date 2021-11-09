@@ -1,9 +1,10 @@
 <template>
   <a-layout
+    class="OutLayout"
     style="min-height: 100vh"
     id="components-layout-demo-custom-trigger"
   >
-    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
+    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible width="13%">
       <div class="logo">
         <img src="../assets/logo.png" width="35" style="margin-left: 10px" />
         <span
@@ -146,4 +147,5 @@ export default defineComponent({
   font-size: 32px;
   line-height: 32px;
 }
+
 </style>

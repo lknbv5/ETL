@@ -1,26 +1,31 @@
 <template>
   <div class="demo-preview">
-    <div class="preview">
-      <formRender
-          v-if="!error"
-          :schema="schema"
-          :formData="formData"
-          @on-change="change"
-      />
-      <div v-else>
-        {{error}}
-      </div>
-    </div>
-
-    <prism-editor
+    <div style="flex: 1;margin-right: 20px;">
+        <p class="title">Schema配置</p>
+        <prism-editor
         class="my-editor"
         :modelValue="schemaStr"
         @update:modelValue="changeSchema"
         :highlight="highlighter"
         line-numbers
-      
     >
     </prism-editor>
+    </div>
+     <div style="flex: 1;">
+       <p class="title">结构预览</p>
+       <div class="preview" >
+        <formRender 
+          v-if="!error"
+          :schema="schema"
+          :formData="formData"
+          @on-change="change"
+        />
+      <div v-else>
+        {{error}}
+      </div>
+    </div>
+     </div>
+    
   </div>
 </template>
 
@@ -110,8 +115,12 @@ export default {
   justify-content: space-between;
   width: 100%;
   .preview {
-    flex: 1;
-    border: 1px solid #ddd;
+    padding-left: 8px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #ddd ;
+    border-radius:4px
   }
 }
 /* required class */
@@ -119,18 +128,20 @@ export default {
   /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
   background: #2d2d2d;
   color: #ccc;
-
+  border-radius:4px;
   /* you must provide font-family font-size line-height. Example: */
   font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
   font-size: 14px;
   line-height: 1.5;
   padding: 5px;
-  flex: 1;
-  margin-left: 20px;
 }
 
 /* optional class for removing the outline */
 .prism-editor__textarea:focus {
   outline: none;
+}
+
+.title{
+  font-weight:600;font-size:16px;margin-bottom:10px
 }
 </style>

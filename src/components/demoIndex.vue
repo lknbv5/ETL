@@ -72,6 +72,6 @@ export default {
     margin-bottom: 20px;
   }
   .demo {
-    padding: 20px;
+    padding: 0px;
   }
 </style>

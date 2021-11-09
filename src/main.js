@@ -28,7 +28,13 @@ import {
   Form,
   Popconfirm,
   Table,
-  ConfigProvider
+  ConfigProvider,
+  Tag,
+  Tabs,
+  Space,
+  Tree,
+  TreeSelect,
+  Spin
 } from 'ant-design-vue';
 import {
   FileImageOutlined,
@@ -39,7 +45,9 @@ import {
   DeleteOutlined,
   DragOutlined,
   SearchOutlined,
-  PlusCircleOutlined
+  PlusCircleOutlined,
+  RollbackOutlined,
+  CloudUploadOutlined
 } from '@ant-design/icons-vue';
 import JsonViewer from "vue3-json-viewer"
 
@@ -89,6 +97,12 @@ app.use(Form);
 app.use(Popconfirm);
 app.use(Table);
 app.use(ConfigProvider);
+app.use(Tag);
+app.use(Tabs);
+app.use(Space);
+app.use(Tree);
+app.use(TreeSelect);
+app.use(Spin);
 
 app.component('FileImageOutlined', FileImageOutlined)
 app.component('UploadOutlined', UploadOutlined)
@@ -99,7 +113,8 @@ app.component('DragOutlined', DragOutlined)
 app.component('QuestionCircleOutlined', QuestionCircleOutlined)
 app.component("SearchOutlined",SearchOutlined )
 app.component("PlusCircleOutlined",PlusCircleOutlined)
-
+app.component("CloudUploadOutlined",CloudUploadOutlined)
+app.component("RollbackOutlined",RollbackOutlined)
 
 
 app.use(router);
