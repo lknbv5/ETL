@@ -41,7 +41,8 @@
         :copyable="{ copyText: '复制', copiedText: '已复制!' }"
         sort
         expanded
-        preview-mode
+        :expand-depth='3'
+        timeformat
       />
     </a-drawer>
     <a-modal

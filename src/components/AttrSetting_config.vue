@@ -54,7 +54,7 @@
         </a-tree-select>
       </a-form-item>
       <a-form-item label="数据抽取类型">
-        <a-radio-group v-model:value="radioValue" button-style="solid">
+        <a-radio-group v-model:value="currentAttr.extractType" button-style="solid">
           <a-radio-button value="0">HttpApi</a-radio-button>
           <a-radio-button value="1">自定义配置</a-radio-button>
         </a-radio-group>

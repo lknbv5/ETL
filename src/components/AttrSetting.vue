@@ -1,8 +1,24 @@
 <template>
   <div v-if="this.$route.path === '/AttrSetting'">
+  <a-drawer
+      title="预览数据"
+      placement="right"
+      :closable="true"
+      v-model:visible="drawer_visible"
+      width="30vw"
+    >
+      <json-viewer
+        :value="previewData"
+        :copyable="{ copyText: '复制', copiedText: '已复制!' }"
+        sort
+        expanded
+        :expand-depth='3'
+        timeformat
+      />
+    </a-drawer>
     <div style="margin-bottom: 20px">
       <a-select
-        v-model:value="selectedProject"
+        v-model:value="selectedProjectId"
         placeholder="选择一个项目"
         style="width: 200px"
         @focus="selectProjectFocus"
@@ -18,7 +34,7 @@
       <a-button type="primary" @click="createNewAttr" style="margin-left: 20px">
         <PlusCircleOutlined />新建
       </a-button>
-      <a-button style="margin-left: 10px"> 预览总数据 </a-button>
+      <a-button style="margin-left: 10px" @click="showAllData"> 预览总数据 </a-button>
     </div>
     <div>
       <a-table
@@ -54,13 +70,13 @@
             >配置</router-link
           >
           <a-divider type="vertical"></a-divider>
-          <a-button type="link" @click="configattr(record)" style="padding: 0">
+          <a-button type="link" @click="Preview(record)" style="padding: 0">
             <template #icon><SearchOutlined /></template>预览</a-button
           >
-          <a-divider type="vertical"></a-divider>
+          <!-- <a-divider type="vertical"></a-divider>
           <a-button type="link" @click="configattr(record)" style="padding: 0"
             >编辑</a-button
-          >
+          > -->
           <a-divider type="vertical"></a-divider>
           <a-popconfirm
             ok-text="删除"
@@ -90,7 +106,7 @@
 </template>
 
 <script>
-import { getProjectlist,getAttributeList,setIsActive } from "../../src/util/Apiservice.js";
+import { getProjectlist,getAttributeList,setIsActive,getProjectAllAttr,getAttribute,deleteAttr } from "../../src/util/Apiservice.js";
 import Config from "../components/AttrSetting_config.vue";
 import { useStore } from "vuex";
 export default {
@@ -99,6 +115,8 @@ export default {
     const store = new useStore();
     return {
       store,
+      drawer_visible:false,
+      previewData:null,
       projectlist: [],
       pagination: {
         defaultPageSize: 5,
@@ -230,12 +248,21 @@ export default {
         }   
       }
     },
-    selectedProject: {
+    selectedProjectId: {
       get() {
-        return this.store.state.selectedProject;
+        return this.store.state.selectedProject.id;
       },
       set(value) {
-        this.store.commit("updateselectedProject", value);
+          let cp=null;
+
+          this.projectlist.find((item)=>{
+              if (item.id==value) {
+                  cp=item;
+              }
+          })
+          if (cp!=null) {
+            this.store.commit("updateselectedProject", cp);
+          }
       },
     },
     editAttr: {
@@ -251,6 +278,7 @@ export default {
   methods: {
     //页面初始加载时刷新
     refresh() {},
+    //设置激活状态
     ActiveChange(record){
         if(record.isActive===true){
             //设置为激活状态
@@ -281,10 +309,26 @@ export default {
     //选择的项目发生变动事件
     selectProjectChange() {
         //拿着当前项目id更新下方属性列表
-    getAttributeList({currentProjectId:this.selectedProject}).then(res=>{
+    getAttributeList({currentProjectId:this.selectedProjectId}).then(res=>{
       this.attritubelist=res
     })
     },
+    //预览全部数据
+    showAllData(){
+      this.drawer_visible=true;
+      getProjectAllAttr(this.store.state.selectedProject.projectApiAdd).then((res) => {
+        this.previewData = res;
+      });
+          
+    },
+    //预览单条属性数据
+    Preview(record){
+        this.drawer_visible=true;
+        getAttribute({projectAddr:this.store.state.selectedProject.projectApiAdd,attributeAddr:record.attributeName}).then(res=>{
+            this.previewData=res;
+        })
+    },
+    //配置属性
     senditem(record) {
       this.editAttr = this.$_.cloneDeep(record);
       if(this.editAttr.operationSchema===null){
@@ -313,9 +357,24 @@ export default {
         this.editAttr.operationData={};
       }
     },
+    //删除属性
+    sureDel(record){
+        deleteAttr({attrId:record.id,mongoid:record.mongoId}).then(res=>{
+          if (res==true) {
+             this.$antdmessage.success("属性删除成功!")
+          }else{
+              this.$antdmessage.error("属性删除失败，请重试，仍不好使请联系管理员!")
+          }
+        });
+        getAttributeList({currentProjectId:this.selectedProjectId}).then(res=>{
+      this.attritubelist=res
+    })
+    },
+    //创建新属性
     createNewAttr(){
         this.editAttr={
-          requestType:0,
+          requestType:null,
+          extractType:1,
           operationSchema: {
           type: "object",
           title: "示例",
@@ -348,63 +407,9 @@ export default {
       this.projectlist = res;
     });
     //拿着当前项目id更新下方属性列表
-    getAttributeList({currentProjectId:this.selectedProject}).then(res=>{
+    getAttributeList({currentProjectId:this.selectedProjectId}).then(res=>{
       this.attritubelist=res
     })
-    //#region 
-    // if (this.selectedProject == 3) {
-    //   this.attritubelist = [
-    //     {
-    //       name: "测试3",
-    //       des: "测试3",
-    //       period: "测试3",
-    //       sourcetype: "测试3",
-    //       isActive: true,
-    //     },
-    //     {
-    //       name: "测试3",
-    //       des: "测试3",
-    //       period: "测试3",
-    //       sourcetype: "测试3",
-    //       isActive: false,
-    //     },
-    //   ];
-    // } else if (this.selectedProject == 4) {
-    //   this.attritubelist = [
-    //     {
-    //       name: "测试4",
-    //       des: "测试4",
-    //       period: "测试4",
-    //       sourcetype: "测试4",
-    //       isActive: true,
-    //     },
-    //     {
-    //       name: "测试4",
-    //       des: "测试4",
-    //       period: "测试4",
-    //       sourcetype: "测试4",
-    //       isActive: false,
-    //     },
-    //   ];
-    // } else if (this.selectedProject == 5) {
-    //   this.attritubelist = [
-    //     {
-    //       name: "测试5",
-    //       des: "测试5",
-    //       period: "测试5",
-    //       sourcetype: "测试5",
-    //       isActive: true,
-    //     },
-    //     {
-    //       name: "测试5",
-    //       des: "测试5",
-    //       period: "测试5",
-    //       sourcetype: "测试5",
-    //       isActive: false,
-    //     },
-    //   ];
-    // }
-    //#endregion
   }
 };
 </script>
