@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')):{
-    selectedProject:null,
+    selectedProject:{},
     editAttr:{}
   },
   mutations: {

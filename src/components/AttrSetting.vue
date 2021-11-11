@@ -277,7 +277,8 @@ export default {
   components: { Config },
   methods: {
     //页面初始加载时刷新
-    refresh() {},
+    refresh() {
+    },
     //设置激活状态
     ActiveChange(record){
         if(record.isActive===true){
@@ -405,7 +406,15 @@ export default {
   created() {
     getProjectlist().then((res) => {
       this.projectlist = res;
+    }).then(()=>{
+      if(this.projectlist.length>0){
+        console.log('object :>> ', "大于0");
+        this.store.state.selectedProject=this.projectlist[0]
+        this.selectProjectChange();
+      }
+      
     });
+   
     //拿着当前项目id更新下方属性列表
     getAttributeList({currentProjectId:this.selectedProjectId}).then(res=>{
       this.attritubelist=res
