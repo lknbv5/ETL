@@ -1,6 +1,6 @@
 <template>
   <div v-if="this.$route.path === '/AttrSetting'">
-  <a-drawer
+    <a-drawer
       title="预览数据"
       placement="right"
       :closable="true"
@@ -12,7 +12,7 @@
         :copyable="{ copyText: '复制', copiedText: '已复制!' }"
         sort
         expanded
-        :expand-depth='3'
+        :expand-depth="3"
         timeformat
       />
     </a-drawer>
@@ -34,7 +34,9 @@
       <a-button type="primary" @click="createNewAttr" style="margin-left: 20px">
         <PlusCircleOutlined />新建
       </a-button>
-      <a-button style="margin-left: 10px" @click="showAllData"> 预览总数据 </a-button>
+      <a-button style="margin-left: 10px" @click="showAllData">
+        预览总数据
+      </a-button>
     </div>
     <div>
       <a-table
@@ -47,27 +49,30 @@
           }
         "
       >
-        <template #frequency="{text:frequency}">
-          <a-tag :color="frequencyColor(frequency)">{{frequencyType(frequency)}}</a-tag>
+        <template #frequency="{ text: frequency }">
+          <a-tag :color="frequencyColor(frequency)">{{
+            frequencyType(frequency)
+          }}</a-tag>
         </template>
-        <template #extractType='{text:extractType}'>
-          <a-tag :color="extractTypeColor(extractType)">{{showextractType(extractType)}}</a-tag>
+        <template #extractType="{ text: extractType }">
+          <a-tag :color="extractTypeColor(extractType)">{{
+            showextractType(extractType)
+          }}</a-tag>
         </template>
         <template #isActive="{ record }">
-          <a-checkbox v-model:checked="record.isActive" @change="ActiveChange(record)" :disabled="isCanActive(record.mongoId)">激活</a-checkbox>
+          <a-checkbox
+            v-model:checked="record.isActive"
+            @change="ActiveChange(record)"
+            >激活</a-checkbox
+          >
         </template>
         <template #option="{ record }">
           <a-button
+            :disabled="record.isActive"
             type="link"
-            @click="configattr(record)"
-            style="padding: 0"
-          ></a-button>
-          <router-link
-            :to="{
-              name: 'Config',
-            }"
             @click="senditem(record)"
-            >配置</router-link
+            style="padding: 0"
+            >配置</a-button
           >
           <a-divider type="vertical"></a-divider>
           <a-button type="link" @click="Preview(record)" style="padding: 0">
@@ -102,11 +107,23 @@
       </a-table>
     </div>
   </div>
-  <Config v-else :attr="editAttr" :newAttr="newAttr"/>
+  <Config
+    v-else
+    :attr="editAttr"
+    :newAttr="newAttr"
+    :successCall="selectProjectChange"
+  />
 </template>
 
 <script>
-import { getProjectlist,getAttributeList,setIsActive,getProjectAllAttr,getAttribute,deleteAttr } from "../../src/util/Apiservice.js";
+import {
+  getProjectlist,
+  getAttributeList,
+  setIsActive,
+  getProjectAllAttr,
+  getAttribute,
+  deleteAttr,
+} from "../../src/util/Apiservice.js";
 import Config from "../components/AttrSetting_config.vue";
 import { useStore } from "vuex";
 export default {
@@ -115,8 +132,8 @@ export default {
     const store = new useStore();
     return {
       store,
-      drawer_visible:false,
-      previewData:null,
+      drawer_visible: false,
+      previewData: null,
       projectlist: [],
       pagination: {
         defaultPageSize: 5,
@@ -170,21 +187,21 @@ export default {
           },
         },
       ],
-      newAttr:true,
+      newAttr: true,
     };
   },
   computed: {
-    isCanActive(){
-      return(mongid)=>{
-          if(mongid===null){
-            return true;
-          }else{
-            return false;
-          }
-      }
-    },
-    frequencyType(){
-      return (frequency)=>{
+    // isCanActive(){
+    //   return(mongid)=>{
+    //       if(mongid===null){
+    //         return true;
+    //       }else{
+    //         return false;
+    //       }
+    //   }
+    // },
+    frequencyType() {
+      return (frequency) => {
         switch (frequency) {
           case 0:
             return "分更新";
@@ -199,13 +216,13 @@ export default {
           case 5:
             return "年更新";
           default:
-           return "未配置";
-        }   
+            return " / ";
+        }
         //return a;
-      }
+      };
     },
-    frequencyColor(){
-        return (frequency)=>{
+    frequencyColor() {
+      return (frequency) => {
         switch (frequency) {
           case 0:
             return "cyan";
@@ -220,50 +237,50 @@ export default {
           case 5:
             return "purple";
           default:
-           return "lightgray";
-        }   
+            return "lightgray";
+        }
         //return a;
-      }
+      };
     },
-    showextractType(){
-        return (extractType)=>{
+    showextractType() {
+      return (extractType) => {
         switch (extractType) {
           case 0:
             return "HttpApi";
           case 1:
             return "Operation";
           default:
-           return "未配置";
-        }   
-      }
+            return "未配置";
+        }
+      };
     },
-    extractTypeColor(){
-         return (extractType)=>{
+    extractTypeColor() {
+      return (extractType) => {
         switch (extractType) {
           case 0:
             return "#1890ff";
           case 1:
             return "#0dbc79";
           default:
-           return "未配置";
-        }   
-      }
+            return "未配置";
+        }
+      };
     },
     selectedProjectId: {
       get() {
         return this.store.state.selectedProject.id;
       },
       set(value) {
-          let cp=null;
+        let cp = null;
 
-          this.projectlist.find((item)=>{
-              if (item.id==value) {
-                  cp=item;
-              }
-          })
-          if (cp!=null) {
-            this.store.commit("updateselectedProject", cp);
+        this.projectlist.find((item) => {
+          if (item.id == value) {
+            cp = item;
           }
+        });
+        if (cp != null) {
+          this.store.commit("updateselectedProject", cp);
+        }
       },
     },
     editAttr: {
@@ -278,29 +295,32 @@ export default {
   components: { Config },
   methods: {
     //页面初始加载时刷新
-    refresh() {
-    },
+    refresh() {},
     //设置激活状态
-    ActiveChange(record){
-        if(record.isActive===true){
-            //设置为激活状态
-            setIsActive(record).then((res)=>{
-                if(res==true){
-                  this.$antdmessage.success("已激活,可通过接口访问数据了!")
-                }else{
-                  this.$antdmessage.error("X 激活失败,请稍后重试，若依旧不行请联系管理员!")
-                }
-            })
-        }else{
-            //设置为不激活状态
-            setIsActive(record).then((res)=>{
-                if(res==true){
-                  this.$antdmessage.warning("已取消激活,数据访问不到了!")
-                }else{
-                  this.$antdmessage.error("X 取消失败,请稍后重试，若依旧不行请联系管理员!")
-                }
-            })
-        }
+    ActiveChange(record) {
+      if (record.isActive === true) {
+        //设置为激活状态
+        setIsActive(record).then((res) => {
+          if (res == true) {
+            this.$antdmessage.success("已激活,可通过接口访问数据了!");
+          } else {
+            this.$antdmessage.error(
+              "X 激活失败,请稍后重试，若依旧不行请联系管理员!"
+            );
+          }
+        });
+      } else {
+        //设置为不激活状态
+        setIsActive(record).then((res) => {
+          if (res == true) {
+            this.$antdmessage.warning("已取消激活,数据访问不到了!");
+          } else {
+            this.$antdmessage.error(
+              "X 取消失败,请稍后重试，若依旧不行请联系管理员!"
+            );
+          }
+        });
+      }
     },
     //选择项目获取焦点时，获取列表项
     selectProjectFocus() {
@@ -310,32 +330,38 @@ export default {
     },
     //选择的项目发生变动事件
     selectProjectChange() {
-        //拿着当前项目id更新下方属性列表
-    getAttributeList({currentProjectId:this.selectedProjectId}).then(res=>{
-      this.attritubelist=res
-    })
+      //拿着当前项目id更新下方属性列表
+      getAttributeList({ currentProjectId: this.selectedProjectId }).then(
+        (res) => {
+          this.attritubelist = res;
+        }
+      );
     },
     //预览全部数据
-    showAllData(){
-      this.drawer_visible=true;
-      getProjectAllAttr(this.store.state.selectedProject.projectApiAdd).then((res) => {
-        this.previewData = res;
-      });
-          
+    showAllData() {
+      this.drawer_visible = true;
+      getProjectAllAttr(this.store.state.selectedProject.projectApiAdd).then(
+        (res) => {
+          this.previewData = res;
+        }
+      );
     },
     //预览单条属性数据
-    Preview(record){
-        this.drawer_visible=true;
-        getAttribute({projectAddr:this.store.state.selectedProject.projectApiAdd,attributeAddr:record.attributeName}).then(res=>{
-            this.previewData=res;
-        })
+    Preview(record) {
+      this.drawer_visible = true;
+      getAttribute({
+        projectAddr: this.store.state.selectedProject.projectApiAdd,
+        attributeAddr: record.attributeName,
+      }).then((res) => {
+        this.previewData = res;
+      });
     },
     //配置属性
     senditem(record) {
       this.editAttr = this.$_.cloneDeep(record);
-      this.newAttr=false;
-      if(this.editAttr.operationSchema===null){
-        this.editAttr.operationSchema={
+      this.newAttr = false;
+      if (this.editAttr.operationSchema === null) {
+        this.editAttr.operationSchema = {
           type: "object",
           title: "示例",
           properties: {
@@ -357,29 +383,39 @@ export default {
             },
           },
         };
-        this.editAttr.operationData={};
+        this.editAttr.operationData = {};
       }
+      this.$router.push({ name: "Config" });
     },
     //删除属性
-    sureDel(record){
-        deleteAttr({attrId:record.id,mongoid:record.mongoId}).then(res=>{
-          if (res==true) {
-             this.$antdmessage.success("属性删除成功!")
-          }else{
-              this.$antdmessage.error("属性删除失败，请重试，仍不好使请联系管理员!")
-          }
-        });
-        getAttributeList({currentProjectId:this.selectedProjectId}).then(res=>{
-      this.attritubelist=res
-    })
+    sureDel(record) {
+      deleteAttr({ attrId: record.id, mongoid: record.mongoId }).then((res) => {
+        if (res == true) {
+          this.$antdmessage.success("属性删除成功!");
+          getAttributeList({ currentProjectId: this.selectedProjectId }).then(
+            (res) => {
+              this.attritubelist = res;
+            }
+          );
+        } else {
+          this.$antdmessage.error(
+            "属性删除失败，请重试，仍不好使请联系管理员!"
+          );
+        }
+      });
     },
     //创建新属性
-    createNewAttr(){
-        this.newAttr=true;
-        this.editAttr={
-          requestType:null,
-          extractType:0,
-          operationSchema: {
+    createNewAttr() {
+      this.newAttr = true;
+      this.editAttr = {
+        requestType: 0,
+        extractType: 0,
+        frequency: 0,
+        requestAddress: null,
+        description: null,
+        commonAttrNo: null,
+        projectId: this.selectedProjectId,
+        operationSchema: {
           type: "object",
           title: "示例",
           properties: {
@@ -402,26 +438,29 @@ export default {
           },
         },
         operationData: {},
-        }
-        this.$router.push({name:"NewConfig"})
+      };
+      this.$router.push({ name: "NewConfig" });
     },
   },
   created() {
-    getProjectlist().then((res) => {
-      this.projectlist = res;
-    }).then(()=>{
-      if(this.projectlist.length>0){
-        console.log('object :>> ', "大于0");
-        this.store.state.selectedProject=this.projectlist[0]
-        this.selectProjectChange();
-      }
-    });
-   
+    getProjectlist()
+      .then((res) => {
+        this.projectlist = res;
+      })
+      .then(() => {
+        if (this.projectlist.length > 0) {
+          this.store.state.selectedProject = this.projectlist[0];
+          this.selectProjectChange();
+        }
+      });
+
     //拿着当前项目id更新下方属性列表
-    getAttributeList({currentProjectId:this.selectedProjectId}).then(res=>{
-      this.attritubelist=res
-    })
-  }
+    getAttributeList({ currentProjectId: this.selectedProjectId }).then(
+      (res) => {
+        this.attritubelist = res;
+      }
+    );
+  },
 };
 </script>
 

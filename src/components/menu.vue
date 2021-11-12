@@ -27,12 +27,12 @@
           <ControlOutlined style="margin-right: 8px" />
           <span><router-link to="/AttrSetting"></router-link>属性配置</span>
         </a-menu-item>
-        <a-menu-item key="DemoIndex">
+        <!-- <a-menu-item key="DemoIndex">
           <NodeIndexOutlined style="margin-right: 8px" />
           <span
             ><router-link to="/DemoIndex"></router-link>自定义数据源配置</span
           >
-        </a-menu-item>
+        </a-menu-item> -->
       </a-menu>
     </a-layout-sider>
     <a-layout>

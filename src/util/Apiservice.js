@@ -12,3 +12,7 @@ export const deleteAttr=par=>get('api/Attribute/DelAttribute',par);
 export const getAttributeList=par=>get('api/Attribute/GetAttributeListByProjectId',par);
 export const getDicTree=async par=>get('api/CommonAttributeDic/GetCommonAttributeDicList',par);
 export const setIsActive=par=>post("api/Attribute/SetIsActive",par);
+export const gerIshasSameAttrName=par=>get("api/Attribute/GetIshasSameAttrName",par);
+export const gerIshasOtherSameAttrName=par=>get("api/Attribute/GetIshasOtherSameAttrName",par);
+export const saveAttribute=par=>post("api/Attribute/SaveAttribute",par);
+export const updateAttribute=par=>post("api/Attribute/UpdateAttribute",par);
