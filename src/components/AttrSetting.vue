@@ -102,7 +102,7 @@
       </a-table>
     </div>
   </div>
-  <Config v-else :attr="editAttr" />
+  <Config v-else :attr="editAttr" :newAttr="newAttr"/>
 </template>
 
 <script>
@@ -170,6 +170,7 @@ export default {
           },
         },
       ],
+      newAttr:true,
     };
   },
   computed: {
@@ -332,6 +333,7 @@ export default {
     //配置属性
     senditem(record) {
       this.editAttr = this.$_.cloneDeep(record);
+      this.newAttr=false;
       if(this.editAttr.operationSchema===null){
         this.editAttr.operationSchema={
           type: "object",
@@ -373,9 +375,10 @@ export default {
     },
     //创建新属性
     createNewAttr(){
+        this.newAttr=true;
         this.editAttr={
           requestType:null,
-          extractType:1,
+          extractType:0,
           operationSchema: {
           type: "object",
           title: "示例",
@@ -412,7 +415,6 @@ export default {
         this.store.state.selectedProject=this.projectlist[0]
         this.selectProjectChange();
       }
-      
     });
    
     //拿着当前项目id更新下方属性列表

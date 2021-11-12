@@ -1,7 +1,8 @@
 <template>
  <a-spin size="large" :spinning="spinning" tip="Loading...">
 <div style="">
-    <a-form
+    <a-form ref="form"
+      :submit="saveAttr"
       style="width: 100%"
       class="center"
       layout="vertical"
@@ -94,7 +95,7 @@
       </a-form-item>
       <a-form-item>
         <a-space>
-          <a-button @click="saveAttr">
+          <a-button  html-type="submit">
             <template #icon><CloudUploadOutlined /></template>
             保 存</a-button
           >
@@ -117,6 +118,7 @@ export default {
   name: "Config",
   props: {
     attr: Object,
+    newAttr:Boolean
   },
   components: {
     Demo,
@@ -153,7 +155,14 @@ export default {
     },
     //保存属性
     saveAttr() {
-      alert(window.JSON.stringify(this.currentAttr));
+      if (this.newAttr) {
+        //是新建，判断名称是否重复
+        alert("执行新建保存")
+        console.log('object :>> ', "执行新建保存");
+      } else {
+        //是编辑，判断名称是否重复
+        alert("执行编辑保存")
+      }
     },
     //返回属性列表
     back() {
