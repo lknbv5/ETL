@@ -29,24 +29,8 @@
         </a-form-item>
       </a-form>
     </a-modal>
-    <a-drawer
-      title="预览总数据"
-      placement="right"
-      :closable="true"
-      v-model:visible="drawer_visible"
-      width="30vw"
-    >
-      <json-viewer
-        :value="allData"
-        :copyable="{ copyText: '复制', copiedText: '已复制!' }"
-        sort
-        expanded
-        :expand-depth='3'
-        timeformat
-      />
-    </a-drawer>
     <a-modal
-      wrapClassName="edit"
+      wrapClassName="create"
       v-model:visible="Editmodal_visible"
       title="编辑项目"
       @ok="saveEditProject"
@@ -72,6 +56,22 @@
         </a-form-item>
       </a-form>
     </a-modal>
+    <a-drawer
+      title="预览总数据"
+      placement="right"
+      :closable="true"
+      v-model:visible="drawer_visible"
+      width="30vw"
+    >
+      <json-viewer
+        :value="allData"
+        :copyable="{ copyText: '复制', copiedText: '已复制!' }"
+        sort
+        expanded
+        :expand-depth='3'
+        timeformat
+      />
+    </a-drawer>
     <a-list
       class="demo-loadmore-list"
       item-layout="horizontal"
@@ -259,9 +259,6 @@ export default {
   height: 40px;
 }
 .create .ant-modal-body {
-  min-height: 200px;
-}
-.edit .ant-modal-body {
   min-height: 200px;
 }
 .NewDiv {

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {hextoString,Decrypt} from "./decrypt"
 
 // 环境的切换
 if (process.env.NODE_ENV === 'development') {
@@ -88,13 +89,30 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 //     }
 //   }
 // )
+// 响应拦截器
+axios.interceptors.response.use(
+  response => {
+    if (response.status === 200) {
+      //判断是否加密，是的话解密后返回
+      let hasRencrypt="rencrypt" in response.headers;
+      if (hasRencrypt) {
+        //需要解密
+        response.data=hextoString(Decrypt(response.data))
+      }
+      return Promise.resolve(response)
+    } else {
+      return Promise.reject(response)
+    }
+  },
+)
+
 
 /**
  * get方法，对应get请求
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export async function get (url, params) {
+export  function httpget (url, params) {
   return new Promise((resolve, reject) => {
     axios.get(url, {
       params: params
@@ -110,7 +128,7 @@ export async function get (url, params) {
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function post (url, params) {
+export function httppost (url, params) {
   return new Promise((resolve, reject) => {
     axios.post(url, params)
       .then(res => {

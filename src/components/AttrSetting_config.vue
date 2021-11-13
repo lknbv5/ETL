@@ -131,7 +131,7 @@
             </a-input-group>
             <a-button
               style="padding: 5px; margin-top: 15px; color: #1890ff"
-              @click="PreviewData"
+              @click="Preview"
             >
               <template #icon><SearchOutlined /></template>
               预览数据
@@ -157,7 +157,7 @@
 
 <script>
 import { toRaw} from 'vue'
-import axios from "axios";
+import {httpget} from '../util/http';
 import Demo from "../components/demo.vue";
 import {
   getDicTree,
@@ -292,7 +292,7 @@ export default {
       this.$router.go(-1);
     },
     //预览数据
-    PreviewData() {
+    Preview() {
       var reg=new RegExp('(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]');
       //判断api 地址不为空，然后获取地址数据
       if (
@@ -301,8 +301,8 @@ export default {
       ) {
         this.$antdmessage.warning("api地址无效，请确认后重试");
       } else {
-        axios.get(this.currentAttr.requestAddress, {}).then(res=>{
-          this.previewData=res.data;
+        httpget(this.currentAttr.requestAddress,{}).then(res=>{
+          this.previewData=JSON.parse(res);
           this.drawer_visible=true;
         }).catch(()=>{
           this.$antdmessage.error("该请求地址无法访问，请确认无误后重试！");

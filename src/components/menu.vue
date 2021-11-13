@@ -47,6 +47,9 @@
           class="trigger"
           @click="() => (collapsed = !collapsed)"
         />
+        <span style="">HostUrl：</span>
+        <span>http://218.56.36.168:29088/api/GetAttribute/</span>
+
         <div style="margin-left: 20px; margin-top: 0px">
           <span style="color: black">你的位置:</span>
           <a-breadcrumb separator="/" style="display: inline-block">
