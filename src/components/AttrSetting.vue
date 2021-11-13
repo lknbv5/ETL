@@ -110,7 +110,6 @@
   <Config
     v-else
     :attr="editAttr"
-    :newAttr="newAttr"
     :successCall="selectProjectChange"
   />
 </template>
@@ -187,7 +186,6 @@ export default {
           },
         },
       ],
-      newAttr: true,
     };
   },
   computed: {
@@ -291,6 +289,14 @@ export default {
         this.store.commit("updateeditAttr", value);
       },
     },
+    newAttr: {
+      get(){
+          return this.store.state.newAttr;
+      },
+      set(value){
+          this.store.commit("updatenewAttr", value);
+      }
+    }
   },
   components: { Config },
   methods: {

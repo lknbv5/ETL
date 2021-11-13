@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 export default createStore({
   state: sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')):{
     selectedProject:{},
-    editAttr:{}
+    editAttr:{},
+    newAttr:true,
   },
   mutations: {
     updateselectedProject(state,value){
@@ -11,6 +12,9 @@ export default createStore({
     },
     updateeditAttr(state,value){
       state.editAttr=value;
+    },
+    updatenewAttr(state,value){
+      state.newAttr=value;
     }
   },
   actions: {

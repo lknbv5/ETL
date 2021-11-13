@@ -99,11 +99,13 @@
             @changeSchema="changeSchema"
           />
           <div v-else>
-            <h4>HTTP API:</h4>
-            <a-select
+            <!-- <h4>HTTP API:</h4> -->
+             <div>更新周期</div>
+              <a-select
               v-model:value="currentAttr.frequency"
-              style="width: 100px; margin-bottom: 15px"
-            >
+              style="width: 100px; margin-bottom: 10px;margin-top:10px"
+              >
+              <a-select-option key="-1" :value="-1">未配置</a-select-option>
               <a-select-option key="0" :value="0">分更新</a-select-option>
               <a-select-option key="1" :value="1">时更新</a-select-option>
               <a-select-option key="2" :value="2">天更新</a-select-option>
@@ -111,10 +113,11 @@
               <a-select-option key="4" :value="4">月更新</a-select-option>
               <a-select-option key="5" :value="5">年更新</a-select-option>
             </a-select>
+            <div style="margin-bottom:10px">请求地址</div>
             <a-input-group compact>
               <a-select
                 v-model:value="currentAttr.requestType"
-                style="width: 12%"
+                style="width: 12%;"
               >
                 <a-select-option key="0" :value="0"
                   >Get</a-select-option
@@ -163,19 +166,20 @@ import {
   saveAttribute,
   updateAttribute
 } from "../util/Apiservice";
-
+import { useStore } from "vuex";
 export default {
   name: "Config",
   props: {
     attr: Object,
-    newAttr: Boolean,
     successCall:Function
   },
   components: {
     Demo,
   },
   data() {
+    const store = new useStore();
     return {
+      store,
       spinning: false,
       drawer_visible:false,previewData:{},
       chooseDicVisible: false,
@@ -198,6 +202,13 @@ export default {
       },
     };
   },
+  computed:{
+    newAttr:{
+      get(){
+        return this.store.state.newAttr;
+      }
+    }
+  },
   methods: {
     changeData(v) {
       this.currentAttr.operationData = v;
@@ -211,6 +222,10 @@ export default {
       if(this.currentAttr.extractType==0){
           if (this.currentAttr.requestAddress==null||this.currentAttr.requestAddress==""||!reg.test(this.currentAttr.requestAddress)) {
             this.$antdmessage.error("API请求地址有误，请确认后重试！");
+            return
+          }
+          if (this.currentAttr.frequency==-1) {
+               this.$antdmessage.error("请配置更新周期！");
             return
           }
       }
@@ -313,10 +328,11 @@ export default {
       })
       .then(() => {
         this.currentAttr = this.attr;
-        if(typeof(this.currentAttr.operationData)==String){
+        console.log('currentAttr :>> ', this.currentAttr);
+        if(typeof(this.currentAttr.operationData)==typeof("")){
             this.currentAttr.operationData=JSON.parse(this.currentAttr.operationData);
         }
-        if(typeof(this.currentAttr.operationSchema)==String){
+        if(typeof(this.currentAttr.operationSchema)==typeof("")){
             this.currentAttr.operationSchema=JSON.parse(this.currentAttr.operationSchema);
         }
         this.spinning = false;
