@@ -15,25 +15,25 @@ const routes = [
     component: Menu,
     children: [
       {
-        path: '/',
+        path: '',
 				redirect: { name: 'ProjectSetting' }
       },
       {
         path: 'ProjectSetting',
         name: 'ProjectSetting',
-        meta:{title:'项目配置',isLogin:true},
+        meta:{title:'项目配置',needLogin:true},
         component: ProjectSetting
       },
       {
         path:'AttrSetting',
         name:'AttrSetting',
-        meta:{title:'属性配置',isLogin:true},
+        meta:{title:'属性配置',needLogin:true},
         component:AttrSetting,
         children:[
           {
             path:"Config",
             name:"Config",
-            meta:{title:'编辑数据源',isLogin:true},
+            meta:{title:'编辑数据源',needLogin:true},
             // props({query}){
             //   return {attr:query.attr}
             // },
@@ -42,7 +42,7 @@ const routes = [
           {
             path:"NewConfig",
             name:"NewConfig",
-            meta:{title:'新建数据源',isLogin:true},
+            meta:{title:'新建数据源',needLogin:true},
             // props({query}){
             //   return {attr:query.attr}
             // },
@@ -71,8 +71,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to,from,next)=>{
-  if (to.meta.isLogin) {
-    let token=false;
+  if (to.meta.needLogin) {
+    let token=sessionStorage.getItem("token");
     if (token) {
       next();
     }else{

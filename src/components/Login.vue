@@ -40,7 +40,9 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log("登陆成功！");
+      //登陆操作
+      sessionStorage.setItem('token',true);
+      this.$router.replace({ name: "ProjectSetting" });
     },
   },
 };
@@ -88,6 +90,7 @@ export default {
 /* 输入框 */
 .inputBox {
   height: 40px;
+  padding-left: 15px;
 }
 /* 输入框内左边距50px */
 .ant-input-affix-wrapper .ant-input:not(:first-child) {
