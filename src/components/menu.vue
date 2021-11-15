@@ -47,8 +47,8 @@
           class="trigger"
           @click="() => (collapsed = !collapsed)"
         />
-        <span style="">HostUrl：</span>
-        <span>http://218.56.36.168:29088/api/GetAttribute/</span>
+        <span style="font-size:15px;font-weight:bold">ETLUrl&nbsp;:&nbsp;</span>
+        <a-tag color="blue" style="font-size:15px;">http://218.56.36.168:29088/ETL/项目名/属性名</a-tag>
 
         <div style="margin-left: 20px; margin-top: 0px">
           <span style="color: black">你的位置:</span>

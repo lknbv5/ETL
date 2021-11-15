@@ -5,7 +5,7 @@ import {hextoString,Decrypt} from "./decrypt"
 if (process.env.NODE_ENV === 'development') {
   axios.defaults.baseURL = 'http://localhost:26067/'
 } else if (process.env.NODE_ENV === 'production') {
-  axios.defaults.baseURL = 'http://localhost:26067/'
+  axios.defaults.baseURL = 'http://218.56.36.168:29088/'
 }
 axios.defaults.timeout = 50000
 // axios.defaults.withCredentials = true;

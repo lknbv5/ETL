@@ -1,8 +1,8 @@
 import {httpget,httppost} from './http';
 
 export const getProjectlist=par=>httpget('api/Project/GetProjectList',par);
-export const getProjectAllAttr=par=>httpget('api/GetAttribute/'+par.toString(),{});
-export const getAttribute=par=>httpget('api/GetAttribute/'+par.projectAddr+'/'+par.attributeAddr,{});
+export const getProjectAllAttr=par=>httpget('ETL/'+par.toString(),{});
+export const getAttribute=par=>httpget('ETL/'+par.projectAddr+'/'+par.attributeAddr,{});
 export const getIsHasOtherApiAdd=par=>httpget('api/Project/GetIsHasOtherApiAdd',par);
 export const getIsHasApiAdd=par=>httpget('api/Project/GetIsHasedApiAdd',par);
 export const updateProject=par=>httppost('api/Project/UpdateProject',par);

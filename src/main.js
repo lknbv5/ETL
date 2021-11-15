@@ -47,7 +47,9 @@ import {
   SearchOutlined,
   PlusCircleOutlined,
   RollbackOutlined,
-  CloudUploadOutlined
+  CloudUploadOutlined,
+  KeyOutlined,
+  UserOutlined,
 } from '@ant-design/icons-vue';
 import JsonViewer from "vue3-json-viewer"
 
@@ -115,6 +117,8 @@ app.component("SearchOutlined",SearchOutlined )
 app.component("PlusCircleOutlined",PlusCircleOutlined)
 app.component("CloudUploadOutlined",CloudUploadOutlined)
 app.component("RollbackOutlined",RollbackOutlined)
+app.component("UserOutlined",UserOutlined)
+app.component("KeyOutlined",KeyOutlined)
 
 
 app.use(router);

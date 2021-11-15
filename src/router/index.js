@@ -1,6 +1,7 @@
 // import Simple from '../components/simple.vue';
 //import DemoIndex from '../components/demoIndex';
 import Menu from '../components/menu.vue';
+import Login from "../components/Login.vue";
 import {createRouter,createWebHashHistory} from 'vue-router'
 
 import ProjectSetting from '../components/ProjectSetting.vue';
@@ -20,19 +21,19 @@ const routes = [
       {
         path: 'ProjectSetting',
         name: 'ProjectSetting',
-        meta:{title:'项目配置'},
+        meta:{title:'项目配置',isLogin:true},
         component: ProjectSetting
       },
       {
         path:'AttrSetting',
         name:'AttrSetting',
-        meta:{title:'属性配置'},
+        meta:{title:'属性配置',isLogin:true},
         component:AttrSetting,
         children:[
           {
             path:"Config",
             name:"Config",
-            meta:{title:'编辑数据源'},
+            meta:{title:'编辑数据源',isLogin:true},
             // props({query}){
             //   return {attr:query.attr}
             // },
@@ -41,7 +42,7 @@ const routes = [
           {
             path:"NewConfig",
             name:"NewConfig",
-            meta:{title:'新建数据源'},
+            meta:{title:'新建数据源',isLogin:true},
             // props({query}){
             //   return {attr:query.attr}
             // },
@@ -56,6 +57,11 @@ const routes = [
         component:DemoIndex
       }
     ]
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
   }
 ]
 
@@ -64,4 +70,18 @@ const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
 });
 
+router.beforeEach((to,from,next)=>{
+  if (to.meta.isLogin) {
+    let token=false;
+    if (token) {
+      next();
+    }else{
+      next({
+        name:"Login"
+      })
+    }
+  } else {
+    next();
+  }
+})
 export default router;
