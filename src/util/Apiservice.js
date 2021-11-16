@@ -1,5 +1,7 @@
 import {httpget,httppost} from './http';
 
+export const login=par=>httpget('api/Login',par);
+
 export const getProjectlist=par=>httpget('api/Project/GetProjectList',par);
 export const getProjectAllAttr=par=>httpget('ETL/'+par.toString(),{});
 export const getAttribute=par=>httpget('ETL/'+par.projectAddr+'/'+par.attributeAddr,{});

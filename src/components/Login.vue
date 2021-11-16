@@ -4,14 +4,14 @@
     <a-form ref="form" :model="form" class="login-form">
       <h2 class="title">用户登录</h2>
       <a-form-item>
-        <a-input class="inputBox" v-model="form.username" placeholder="请输入用户名">
+        <a-input class="inputBox" v-model:value="form.userName" placeholder="请输入用户名">
           <template #prefix>
            <UserOutlined/>
           </template>
         </a-input>
       </a-form-item>
       <a-form-item>
-        <a-input-password class="inputBox" v-model="form.password" placeholder="请输入密码">
+        <a-input-password class="inputBox" v-model:value="form.passWord" placeholder="请输入密码">
           <template #prefix>
             <KeyOutlined />
           </template>
@@ -28,21 +28,28 @@
 </template>
 
 <script>
+import {login} from "../util/Apiservice"
+
 export default {
   name: "Login",
   data() {
     return {
       form: {
-        username: "admin",
-        password: "123456",
+        userName: "admin",
+        passWord: "GTZX@666",
       },
     };
   },
   methods: {
     onSubmit() {
       //登陆操作
-      sessionStorage.setItem('token',true);
-      this.$router.replace({ name: "ProjectSetting" });
+      login(this.form).then(res=>{
+          localStorage.setItem('token',res.token);
+          this.$router.replace({ name: "ProjectSetting" });
+      }).catch(()=>{
+          this.$antdmessage.error("用户名或密码错误");
+      })
+      
     },
   },
 };

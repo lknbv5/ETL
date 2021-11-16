@@ -70,7 +70,6 @@ app.config.globalProperties.$_ = _;//全局使用lodash
 app.config.globalProperties.$uuidv4=uuidv4;//全局试用uuid
 app.config.globalProperties.$antdmessage=message;//全局试用antdmessage
 
-
 app.use(JsonViewer)
 
 app.use(Input);

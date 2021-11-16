@@ -72,7 +72,7 @@ const router = createRouter({
 
 router.beforeEach((to,from,next)=>{
   if (to.meta.needLogin) {
-    let token=sessionStorage.getItem("token");
+    let token=localStorage.getItem("token");
     if (token) {
       next();
     }else{
