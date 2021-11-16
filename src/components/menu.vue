@@ -4,12 +4,12 @@
     style="min-height: 100vh"
     id="components-layout-demo-custom-trigger"
   >
-    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible width="13%">
-      <div class="logo">
+    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible width="250px" >
+      <div class="logo" style="overflow: hidden;text-overflow:ellipsis;">
         <img src="../assets/logo.png" width="35" style="margin-left: 10px" />
         <span
           v-if="!collapsed"
-          style="font-size: 20px; margin-left: 15px; color: white"
+          style="font-size: 20px; margin-left: 15px;color: white;"
           >港通云中枢</span
         >
       </div>
