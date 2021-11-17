@@ -101,7 +101,7 @@ axios.interceptors.response.use(
       let hasRencrypt="rencrypt" in response.headers;
       if (hasRencrypt) {
         //需要解密
-        response.data=hextoString(Decrypt(response.data))
+        response.data=JSON.parse(hextoString(Decrypt(response.data)))
       }
       return Promise.resolve(response)
     }
@@ -172,9 +172,11 @@ export  function httpget (url, params) {
     axios.get(url, {
       params: params
     }).then(res => {
+      console.log('httpgetthen:>> ', res.data);
       resolve(res.data)
     }).catch(err => {
-      reject(err)
+      console.log('httpgetCatch:>> ', err.data);
+      reject(err.data)
     })
   })
 }

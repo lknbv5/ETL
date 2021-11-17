@@ -302,9 +302,10 @@ export default {
         this.$antdmessage.warning("api地址无效，请确认后重试");
       } else {
         httpget(this.currentAttr.requestAddress,{}).then(res=>{
-          this.previewData=JSON.parse(res);
+          this.previewData=res;
           this.drawer_visible=true;
-        }).catch(()=>{
+        }).catch((errdata)=>{
+          console.log('errdata :>> ', errdata);
           this.$antdmessage.error("该请求地址无法访问，请确认无误后重试！");
         });
       }
