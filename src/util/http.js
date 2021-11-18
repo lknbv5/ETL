@@ -11,7 +11,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 axios.defaults.timeout = 50000
 // axios.defaults.withCredentials = true;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8;multipart/form-data'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8;multipart/form-data;application/json;'
+// axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8;multipart/form-data;application/json;'
 
 // 请求拦截器
 axios.interceptors.request.use(
@@ -22,7 +23,13 @@ axios.interceptors.request.use(
     if(token){
       config.headers['Authorization'] ="Bearer "+ token;
     }
+    if (config.method === 'get') {
+      //  给data赋值以绕过if判断
+      config.data = true 
+    }
+    config.headers['Content-Type'] = 'application/json'
     return config
+
   },
   error => {
     return Promise.error(error)

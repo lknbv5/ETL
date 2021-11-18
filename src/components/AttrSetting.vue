@@ -75,7 +75,7 @@
             >配置</a-button
           >
           <a-divider type="vertical"></a-divider>
-          <a-button type="link" @click="Preview(record)" style="padding: 0">
+          <a-button :disabled="!record.isActive" type="link" @click="Preview(record)" style="padding: 0">
             <template #icon><SearchOutlined /></template>预览</a-button
           >
           <!-- <a-divider type="vertical"></a-divider>
@@ -455,7 +455,9 @@ export default {
       })
       .then(() => {
         if (this.projectlist.length > 0) {
-          this.store.state.selectedProject = this.projectlist[0];
+          if(this.store.state.selectedProject.id==undefined){
+              this.store.state.selectedProject = this.projectlist[0];
+          }
           this.selectProjectChange();
         }
       });
