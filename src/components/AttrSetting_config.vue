@@ -2,20 +2,20 @@
   <a-spin size="large" :spinning="spinning" tip="Loading...">
     <div style="">
       <a-drawer
-      title="预览数据"
-      placement="right"
-      :closable="true"
-      v-model:visible="drawer_visible"
-      width="30vw"
-    >
-      <json-viewer
-        :value="previewData"
-        :copyable="{ copyText: '复制', copiedText: '已复制!' }"
-        sort
-        expanded
-        :expand-depth='3'
-      />
-    </a-drawer>
+        title="预览数据"
+        placement="right"
+        :closable="true"
+        v-model:visible="drawer_visible"
+        width="30vw"
+      >
+        <json-viewer
+          :value="previewData"
+          :copyable="{ copyText: '复制', copiedText: '已复制!' }"
+          sort
+          expanded
+          :expand-depth="3"
+        />
+      </a-drawer>
       <a-form
         ref="form"
         @finish="saveAttr"
@@ -100,11 +100,11 @@
           />
           <div v-else>
             <!-- <h4>HTTP API:</h4> -->
-             <div>更新周期</div>
-              <a-select
+            <div>更新周期</div>
+            <a-select
               v-model:value="currentAttr.frequency"
-              style="width: 100px; margin-bottom: 10px;margin-top:10px"
-              >
+              style="width: 100px; margin-bottom: 10px; margin-top: 10px"
+            >
               <a-select-option key="-1" :value="-1">未配置</a-select-option>
               <a-select-option key="0" :value="0">分更新</a-select-option>
               <a-select-option key="1" :value="1">时更新</a-select-option>
@@ -113,15 +113,13 @@
               <a-select-option key="4" :value="4">月更新</a-select-option>
               <a-select-option key="5" :value="5">年更新</a-select-option>
             </a-select>
-            <div style="margin-bottom:10px">请求地址</div>
+            <div style="margin-bottom: 10px">请求地址</div>
             <a-input-group compact>
               <a-select
                 v-model:value="currentAttr.requestType"
-                style="width: 12%;"
+                style="width: 12%"
               >
-                <a-select-option key="0" :value="0"
-                  >Get</a-select-option
-                >
+                <a-select-option key="0" :value="0">Get</a-select-option>
                 <!-- <a-select-option :value='1'>Post</a-select-option> -->
               </a-select>
               <a-input
@@ -129,6 +127,16 @@
                 v-model:value="currentAttr.requestAddress"
               />
             </a-input-group>
+            <div v-if="currentAttr.requestType===1">
+                <div style="margin-top:10px">Post 请求参数：(Json)</div>
+            <prism-editor
+              class="my-editor"
+              v-model:modelValue="currentAttr.RequestPar"
+              :highlight="highlighter"
+              line-numbers
+            >
+            </prism-editor>
+            </div>
             <a-button
               style="padding: 5px; margin-top: 15px; color: #1890ff"
               @click="Preview"
@@ -156,32 +164,42 @@
 </template>
 
 <script>
-import { toRaw} from 'vue'
-import {httpget} from '../util/http';
+import { toRaw } from "vue";
+import { httpget } from "../util/http";
 import Demo from "../components/demo.vue";
 import {
   getDicTree,
   gerIshasSameAttrName,
   gerIshasOtherSameAttrName,
   saveAttribute,
-  updateAttribute
+  updateAttribute,
 } from "../util/Apiservice";
 import { useStore } from "vuex";
+import { PrismEditor } from 'vue-prism-editor';
+import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhere
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/themes/prism-tomorrow.css'; // import syntax highlighting styles
+
+
 export default {
   name: "Config",
   props: {
     attr: Object,
-    successCall:Function
+    successCall: Function,
   },
   components: {
     Demo,
+    PrismEditor,
   },
   data() {
     const store = new useStore();
     return {
       store,
       spinning: false,
-      drawer_visible:false,previewData:{},
+      drawer_visible: false,
+      previewData: {},
       chooseDicVisible: false,
       currentAttr: {},
       radioValue: "0",
@@ -202,14 +220,17 @@ export default {
       },
     };
   },
-  computed:{
-    newAttr:{
-      get(){
+  computed: {
+    newAttr: {
+      get() {
         return this.store.state.newAttr;
-      }
-    }
+      },
+    },
   },
   methods: {
+    highlighter(code) {
+      return highlight(code, languages.js);
+    },
     changeData(v) {
       this.currentAttr.operationData = v;
     },
@@ -218,16 +239,22 @@ export default {
     },
     //保存属性
     saveAttr() {
-      var reg=new RegExp('(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]');
-      if(this.currentAttr.extractType==0){
-          if (this.currentAttr.requestAddress==null||this.currentAttr.requestAddress==""||!reg.test(this.currentAttr.requestAddress)) {
-            this.$antdmessage.error("API请求地址有误，请确认后重试！");
-            return
-          }
-          if (this.currentAttr.frequency==-1) {
-               this.$antdmessage.error("请配置更新周期！");
-            return
-          }
+      var reg = new RegExp(
+        "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"
+      );
+      if (this.currentAttr.extractType == 0) {
+        if (
+          this.currentAttr.requestAddress == null ||
+          this.currentAttr.requestAddress == "" ||
+          !reg.test(this.currentAttr.requestAddress)
+        ) {
+          this.$antdmessage.error("API请求地址有误，请确认后重试！");
+          return;
+        }
+        if (this.currentAttr.frequency == -1) {
+          this.$antdmessage.error("请配置更新周期！");
+          return;
+        }
       }
       if (this.newAttr) {
         //是新建，判断名称是否重复
@@ -240,20 +267,22 @@ export default {
             this.$antdmessage.error("该项目下已存在同名属性,请重新命名后重试!");
           } else {
             //不存在，执行保存方法
-            var item=toRaw(this.currentAttr);
-            item.operationData=JSON.stringify(item.operationData);
-            item.operationSchema=JSON.stringify(item.operationSchema);
-            saveAttribute(item).then(res=>{
-              if (res==true) {
+            var item = toRaw(this.currentAttr);
+            item.operationData = JSON.stringify(item.operationData);
+            item.operationSchema = JSON.stringify(item.operationSchema);
+            saveAttribute(item).then((res) => {
+              if (res == true) {
                 //保存成功
                 this.$antdmessage.success("保存成功！");
                 //路由切换
-                this.$router.push({name:"AttrSetting"});
+                this.$router.push({ name: "AttrSetting" });
                 this.successCall();
-              }else{
-                this.$antdmessage.error("保存失败，请稍后重试，仍失败请联系管理员!");
+              } else {
+                this.$antdmessage.error(
+                  "保存失败，请稍后重试，仍失败请联系管理员!"
+                );
               }
-            })
+            });
           }
         });
       } else {
@@ -269,20 +298,22 @@ export default {
           } else {
             //不存在，执行更新方法
             //先转换一下Schema的值为string
-            var item=toRaw(this.currentAttr);
-            item.operationData=JSON.stringify(item.operationData);
-            item.operationSchema=JSON.stringify(item.operationSchema);
-            updateAttribute(item).then(res=>{
-              if (res==true) {
+            var item = toRaw(this.currentAttr);
+            item.operationData = JSON.stringify(item.operationData);
+            item.operationSchema = JSON.stringify(item.operationSchema);
+            updateAttribute(item).then((res) => {
+              if (res == true) {
                 //保存成功
                 this.$antdmessage.success("保存成功！");
                 //路由切换
-                this.$router.push({name:"AttrSetting"});
+                this.$router.push({ name: "AttrSetting" });
                 this.successCall();
-              }else{
-                this.$antdmessage.error("保存失败，请稍后重试，仍失败请联系管理员!");
+              } else {
+                this.$antdmessage.error(
+                  "保存失败，请稍后重试，仍失败请联系管理员!"
+                );
               }
-            })
+            });
           }
         });
       }
@@ -293,21 +324,26 @@ export default {
     },
     //预览数据
     Preview() {
-      var reg=new RegExp('(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]');
+      var reg = new RegExp(
+        "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"
+      );
       //判断api 地址不为空，然后获取地址数据
       if (
         this.currentAttr.requestAddress == null ||
-        this.currentAttr.requestAddress == ""||!reg.test(this.currentAttr.requestAddress)
+        this.currentAttr.requestAddress == "" ||
+        !reg.test(this.currentAttr.requestAddress)
       ) {
         this.$antdmessage.warning("api地址无效，请确认后重试");
       } else {
-        httpget(this.currentAttr.requestAddress,{}).then(res=>{
-          this.previewData=res;
-          this.drawer_visible=true;
-        }).catch((errdata)=>{
-          console.log('errdata :>> ', errdata);
-          this.$antdmessage.error("该请求地址无法访问，请确认无误后重试！");
-        });
+        httpget(this.currentAttr.requestAddress, {})
+          .then((res) => {
+            this.previewData = res;
+            this.drawer_visible = true;
+          })
+          .catch((errdata) => {
+            console.log("errdata :>> ", errdata);
+            this.$antdmessage.error("该请求地址无法访问，请确认无误后重试！");
+          });
       }
     },
     //选择字典
@@ -329,12 +365,16 @@ export default {
       })
       .then(() => {
         this.currentAttr = this.attr;
-        console.log('currentAttr :>> ', this.currentAttr);
-        if(typeof(this.currentAttr.operationData)==typeof("")){
-            this.currentAttr.operationData=JSON.parse(this.currentAttr.operationData);
+        console.log("currentAttr :>> ", this.currentAttr);
+        if (typeof this.currentAttr.operationData == typeof "") {
+          this.currentAttr.operationData = JSON.parse(
+            this.currentAttr.operationData
+          );
         }
-        if(typeof(this.currentAttr.operationSchema)==typeof("")){
-            this.currentAttr.operationSchema=JSON.parse(this.currentAttr.operationSchema);
+        if (typeof this.currentAttr.operationSchema == typeof "") {
+          this.currentAttr.operationSchema = JSON.parse(
+            this.currentAttr.operationSchema
+          );
         }
         this.spinning = false;
       });
@@ -343,9 +383,27 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style lang="css" scope>
 .edit .ant-modal-body {
   height: 400px;
   width: 300px;
 }
+ /* required class */
+  .my-editor {
+    /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
+    background: #2d2d2d;
+    color: #ccc;
+    min-height: 200px;
+    margin: 10px 0;
+    /* you must provide font-family font-size line-height. Example: */
+    font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 5px;
+  }
+
+  /* optional class for removing the outline */
+  .prism-editor__textarea:focus {
+    outline: none;
+  }
 </style>

@@ -108,7 +108,7 @@ export default {
 </script>
 
 
-<style lang="less">
+<style lang="less" scope>
 .demo-preview {
   display: flex;
   align-items: flex-start;
