@@ -11,7 +11,7 @@
         </a-input>
       </a-form-item>
       <a-form-item>
-        <a-input-password class="inputBox" v-model:value="form.passWord" placeholder="请输入密码">
+        <a-input-password class="inputBox" v-model:value="form.passWord" placeholder="请输入密码" v-on:keyup.enter="onSubmit">
           <template #prefix>
             <KeyOutlined />
           </template>
