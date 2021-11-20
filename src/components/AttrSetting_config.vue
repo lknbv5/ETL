@@ -365,7 +365,6 @@ export default {
       })
       .then(() => {
         this.currentAttr = this.attr;
-        console.log("currentAttr :>> ", this.currentAttr);
         if (typeof this.currentAttr.operationData == typeof "") {
           this.currentAttr.operationData = JSON.parse(
             this.currentAttr.operationData

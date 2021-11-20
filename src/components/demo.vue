@@ -16,8 +16,8 @@
        <div class="preview" >
         <formRender 
           v-if="!error"
-          :schema="schema"
-          :formData="formData"
+          v-model:schema="schema"
+          v-model:formData="formData"
           @on-change="change"
         />
       <div v-else>
@@ -40,6 +40,7 @@ import 'prismjs/themes/prism-tomorrow.css'; // import syntax highlighting styles
 
 import {reactive, toRefs} from 'vue';
 import formRender from '../../packages/index.jsx';
+import _ from 'lodash';
 
 const schema2str = obj => JSON.stringify(obj, null, 2) || '';
 
@@ -82,6 +83,9 @@ export default {
         const schema = tryParse(v);
         if (schema) {
           state.schema = schema;
+          let temp=_.cloneDeep(state.formData)
+          state.formData=temp;
+          context.emit("changeData",state.formData);
         }
         context.emit("changeSchema",state.schema);
       } catch (e) {

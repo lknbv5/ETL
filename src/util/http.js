@@ -179,10 +179,8 @@ export  function httpget (url, params) {
     axios.get(url, {
       params: params
     }).then(res => {
-      console.log('httpgetthen:>> ', res.data);
       resolve(res.data)
     }).catch(err => {
-      console.log('httpgetCatch:>> ', err.data);
       reject(err.data)
     })
   })
